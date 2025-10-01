@@ -11,8 +11,8 @@ from enum import Enum
 from ascon import *
 
 VERBOSE = 1
-# RUNS = range(0, 10)
-RUNS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256, 512, 1024]
+RUNS = range(0, 10)
+# RUNS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 16, 32, 64, 128, 256, 512, 1024]
 CCW = 32
 # CCW = 64
 CCWD8 = CCW // 8

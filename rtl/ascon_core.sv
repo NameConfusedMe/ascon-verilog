@@ -115,7 +115,7 @@ module ascon_core (
   assign sqz_hash_done2 = ((hash_cnt == 'd3) && sqz_hash_done1) || (sqz_hash && bdo_eoo);
   assign sqz_tag        = (fsm == SQZ_TAG) && bdo_valid && bdo_ready;
   assign sqz_tag_done   = (word_cnt == (W128 - 1)) && sqz_tag;
-  assign ver_tag        = (fsm == VER_TAG) && (bdi_type == D_TAG) && bdi_ready;
+  assign ver_tag        = (fsm == VER_TAG) && (bdi_type == D_TAG) && bdi_ready && (bdi_valid != 'd0);
   assign ver_tag_done   = (word_cnt == (W128 - 1)) && ver_tag;
 
   assign last_abs_blk =
