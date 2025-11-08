@@ -138,6 +138,10 @@ module ascon_core (
 
   logic [LANES-1:0][W64-1:0][CCW-1:0] asconp_o;
 
+  //change 1: to fix the problem bdo cipher output not equal to the plaintext
+  logic [CCW:0] valid_mask;
+  assign valid_mask = (CCW==32) ? {{8{bdi_valid[3]}}, {8{bdi_valid[2]}}, {8{bdi_valid[1]}}, {8{bdi_valid[0]}}}: {{8{bdi_valid[7]}}, {8{bdi_valid[6]}}, {8{bdi_valid[5]}}, {8{bdi_valid[4]}}, {8{bdi_valid[3]}}, {8{bdi_valid[2]}}, {8{bdi_valid[1]}}, {8{bdi_valid[0]}}};
+
   // Instantiation of Ascon-p permutation
   asconp asconp_i (
     .round_cnt(round_cnt),
@@ -188,7 +192,8 @@ module ascon_core (
         if (mode_r == M_AEAD128_ENC || mode_hash_xof) begin
           bdi_pad = pad(bdi, bdi_valid);
           state_nx = state_slice ^ bdi_pad;
-          bdo = state_nx;
+        //changed2
+          bdo = valid_mask&state_nx;
         end else if (mode_r == M_AEAD128_DEC) begin
           bdi_pad = pad2(bdi, state_slice, bdi_valid);
           state_nx = bdi_pad;
